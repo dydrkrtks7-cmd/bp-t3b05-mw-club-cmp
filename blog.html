@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="bpaas-design-system" content="brutalist-avantgarde">
+    <meta name="bpaas-design-theme" content="kr-neon-void">
+    <title>망원 클럽 비교: 데이터로 분석한 2024 핫플레이스 | 블로그</title>
+    <meta name="description" content="망원동 대표 클럽들의 음악, 분위기, 가격, 혼잡도를 데이터 기반으로 분석한 블로그. 2024년 서울 핫플레이스 망원의 클럽 문화를 전문가 시각으로 비교합니다.">
+    <meta name="keywords" content="망원 클럽 비교, 망원동 클럽, 데이터 분석, 클럽 리뷰, 서울 핫플레이스, 망원 클럽 추천">
+    <link rel="canonical" href="https://t3b05-mw-club-cmp.vercel.app/blog">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://t3b05-mw-club-cmp.vercel.app/blog">
+    <meta property="og:title" content="망원 클럽 비교: 데이터로 분석한 2024 핫플레이스">
+    <meta property="og:description" content="망원동 대표 클럽들의 음악, 분위기, 가격, 혼잡도를 데이터 기반으로 분석합니다. 2024년 망원의 클럽 문화를 전문가 시각으로 만나보세요.">
+    <meta property="og:site_name" content="망원클럽닷컴">
+    <meta property="og:image" content="https://t3b05-mw-club-cmp.vercel.app/og-blog.jpg">
+    <meta property="og:locale" content="ko_KR">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="망원 클럽 비교: 데이터로 분석한 2024 핫플레이스">
+    <meta name="twitter:description" content="망원동 대표 클럽들의 음악, 분위기, 가격, 혼잡도를 데이터 기반으로 분석합니다.">
+    <style>
+        /* RESET & BASE */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans KR', 'Spoqa Han Sans Neo', system-ui, sans-serif;
+            background: #0b0b0b;
+            color: #e0e0e0;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: 0.01em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        a {
+            color: #f5f5f5;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        a:hover {
+            color: #ff0077;
+        }
+        ul, ol {
+            list-style: none;
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 0.5em;
+        }
+        h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+            line-height: 1.2;
+            margin-bottom: 0.6em;
+        }
+        h3 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            margin-bottom: 0.4em;
+        }
+        .text-mono {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            letter-spacing: 0.05em;
+        }
+        /* LAYOUT SPACE — airy */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        section {
+            padding: 4rem 0;
+        }
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 2rem;
+        }
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(11, 11, 11, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #2a2a2a;
+            z-index: 1000;
+            padding: 0.8rem 2rem;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #ff0077;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .hamburger-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #1a1a1a;
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .hamburger-menu {
+                display: block;
+            }
+        }
+        /* TEL LINK */
+        .tel-link {
+            color: #ff0077;
+            font-weight: 700;
+        }
+        /* HERO (blog header) */
+        .section-hero {
+            padding-top: 6rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        /* CONTENT */
+        .content-block {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .content-block p {
+            margin-bottom: 1.5em;
+            font-size: 1.05rem;
+            color: #ccc;
+        }
+        .content-block blockquote {
+            border-left: 4px solid #ff0077;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #aaa;
+        }
+        /* DATA CARDS */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .data-card {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            border-radius: 0;
+            transition: border-color 0.2s;
+        }
+        .data-card:hover {
+            border-color: #ff0077;
+        }
+        .data-card h3 {
+            color: #ff0077;
+            margin-bottom: 0.5rem;
+        }
+        .data-card .stat {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #f5f5f5;
+            margin: 0.5rem 0;
+        }
+        .data-card .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 0.1em;
+        }
+        /* TABLE */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+        .data-table th {
+            background: #1a1a1a;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ff0077;
+            color: #ff0077;
+        }
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .data-table tr:hover td {
+            background: #111;
+        }
+        /* FAQ */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .faq-item {
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 1.5rem;
+        }
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #f5f5f5;
+            margin-bottom: 0.5rem;
+        }
+        .faq-answer {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #2a2a2a;
+            padding: 3rem 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        footer .contact {
+            margin-top: 1rem;
+        }
+        footer .contact a {
+            color: #ff0077;
+        }
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV (shared) -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">MW CLUB</a>
+            <button class="hamburger-menu" aria-label="메뉴 열기">≡</button>
+            <div class="nav-links">
+                <a href="/">홈</a>
+                <a href="/compare">클럽 비교</a>
+                <a href="/blog" class="active">블로그</a>
+                <a href="/faq">FAQ</a>
+                <a href="tel:+82212345678" class="tel-link">문의: 02-123
+</body>
+</html>
