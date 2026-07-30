@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mapo-coin-karaoke-note.keepnote.shop/sitemap.xml
-Sitemap: https://mapo-coin-karaoke-note.keepnote.shop/sitemap-pages.xml
+Sitemap: https://seoul-club-review.node-link.shop/sitemap.xml
+Sitemap: https://seoul-club-review.node-link.shop/sitemap-pages.xml
